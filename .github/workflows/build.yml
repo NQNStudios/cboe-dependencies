@@ -87,10 +87,10 @@ jobs:
           static: ${{ matrix.os.name == 'windows' }}
         if: ${{ matrix.os.name != 'macos' }}
       - name: Copy boost include to output folders
-        run: cp -r ${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}${{ matrix.os.path-join }}boost include/
+        run: cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}${{ matrix.os.path-join }}boost' include/
         shell: bash
       - name: Copy boost libs to output folders
-        run: cp -r ${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}* lib/
+        run: cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}'* lib/
         shell: bash
 
       - name: Build SFML
