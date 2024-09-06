@@ -43,11 +43,11 @@ jobs:
         with:
           submodules: true
       - name: CMake zlib for linux
-        run: cmake -DCMAKE_INSTALL_PREFIX=./ -S . -B build
+        run: cmake -DCMAKE_INSTALL_PREFIX=../ -S . -B build
         working-directory: zlib
         if: ${{ matrix.os.name == 'ubuntu' }}
       - name: CMake zlib for windows
-        run: cmake -DCMAKE_INSTALL_PREFIX=./ -S . -B build -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+        run: cmake -DCMAKE_INSTALL_PREFIX=../ -S . -B build -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
         working-directory: zlib
         if: ${{ matrix.os.name == 'windows' }}
       - name: Build zlib for linux
