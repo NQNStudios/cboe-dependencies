@@ -1,0 +1,115 @@
+on:
+  push:
+    branches:
+      - "*"
+    tags:
+      - "v*.*.*"
+jobs:
+  release:
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 10.15
+      BUILD_OS: ${{ matrix.os.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - name: macos
+          suffix: '-intel'
+          version: 12
+          path-separator: ':'
+        - name: macos
+          suffix: '-silicon'
+          version: 14
+          path-separator: ':'
+        - name: ubuntu
+          suffix: ''
+          version: 22.04
+          path-separator: ':'
+        - name: windows
+          suffix: ''
+          version: 2019
+          path-separator: ';'
+        boost-version:
+        - 1.85.0
+        sfml-version:
+        - 2.6.1
+        configuration:
+        - Release
+        - Debug
+    runs-on: '${{ matrix.os.name }}-${{ matrix.os.version }}'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: CMake zlib for linux
+        run: cmake -DCMAKE_INSTALL_PREFIX=./ -S . -B build
+        working-directory: zlib
+        if: ${{ matrix.os.name == 'ubuntu' }}
+      - name: CMake zlib for windows
+        run: cmake -DCMAKE_INSTALL_PREFIX=./ -S . -B build -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+        working-directory: zlib
+        if: ${{ matrix.os.name == 'windows' }}
+      - name: Build zlib for linux
+        run: make && sudo make install
+        working-directory: zlib/build
+        if: ${{ matrix.os.name == 'ubuntu' }}
+      - name: Build zlib for windows
+        run: './.github/workflows/scripts/win/zlib-build.bat x64'
+        if: ${{ matrix.os.name == 'windows' }}
+
+      # On MacOS, a flag is required to install pip dependencies - my fork provides this
+      - name: Build Boost (fork)
+        id: boost-fork
+        uses: NQNStudios/build-boost@v1
+        with:
+          version: ${{ matrix.boost-version }}
+          libraries: filesystem system
+          platform: x64
+          configuration: ${{ matrix.configuration }}
+          static: ${{ matrix.os.name == 'windows' }}
+        if: ${{ matrix.os.name == 'macos' }}
+      - name: Build Boost
+        id: boost
+        uses: egor-tensin/build-boost@v1
+        with:
+          version: ${{ matrix.boost-version }}
+          libraries: filesystem system
+          platform: x64
+          configuration: ${{ matrix.configuration }}
+          static: ${{ matrix.os.name == 'windows' }}
+        if: ${{ matrix.os.name != 'macos' }}
+      - name: Copy boost include to output folders
+        run: cp -r ${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}/boost include/
+        shell: bash
+      - name: Copy boost libs to output folders
+        run: cp -r ${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}/* lib/
+        shell: bash
+
+      - name: Build SFML
+        id: sfml
+        uses: oprypin/install-sfml@v1
+        with:
+          sfml: ${{ matrix.sfml-version }}
+          config: ${{ matrix.configuration }}
+      - name: Copy SFML include to output folders
+        run: cp ${{ steps.sfml.outputs.path }}/include/* include/
+        shell: bash
+      - name: Copy SFML libs to output folders
+        run: cp ${{ steps.sfml.outputs.path }}/lib/* lib/
+        shell: bash
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}
+          path: |
+            include
+            lib
+      - name: Github release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            include
+            lib
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
