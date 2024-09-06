@@ -100,17 +100,17 @@ jobs:
           sfml: ${{ matrix.sfml-version }}
           config: ${{ matrix.configuration }}
 
+      - name: 'Tar files'
+        run: 'tar -cvf dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}.tar "include" "lib"'
+        working-directory: '${{ github.workspace }}/build'
+
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}
-          path: |
-            include
-            lib
+          path: dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}.tar
       - name: Github release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            include
-            lib
+          files: dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}.tar
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
