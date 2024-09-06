@@ -91,10 +91,10 @@ jobs:
         shell: bash
       - name: Copy boost libs to output folders
         run: cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}'""* lib/
-        if: ${{ matrix.os.name != "windows" }}
+        if: ${{ matrix.os.name != 'windows' }}
       - name: Copy boost libs to output folders (windows)
         run: copy '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}*' lib/
-        if: ${{ matrix.os.name == "windows" }}
+        if: ${{ matrix.os.name == 'windows' }}
 
       - name: Build SFML
         id: sfml
