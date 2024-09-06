@@ -91,7 +91,7 @@ jobs:
 
       - name: Build SFML
         id: sfml
-        uses: oprypin/install-sfml@v1
+        uses: NQNStudios/install-sfml@v1
         with:
           sfml: ${{ matrix.sfml-version }}
           config: ${{ matrix.configuration }}
