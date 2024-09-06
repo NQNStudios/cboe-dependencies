@@ -102,7 +102,6 @@ jobs:
 
       - name: 'Tar files'
         run: 'tar -cvf dependencies-${{ matrix.os.name }}${{matrix.os.suffix}}-${{ matrix.configuration }}.tar "include" "lib"'
-        working-directory: '${{ github.workspace }}/build'
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
