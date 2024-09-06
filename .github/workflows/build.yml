@@ -55,7 +55,7 @@ jobs:
         working-directory: zlib
         if: ${{ matrix.os.name == 'windows' }}
       - name: Build zlib for linux
-        run: make && sudo make install
+        run: make && make install
         working-directory: zlib/build
         if: ${{ matrix.os.name == 'ubuntu' }}
       - name: Build zlib for windows
