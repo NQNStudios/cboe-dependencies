@@ -58,6 +58,9 @@ jobs:
         run: './.github/workflows/scripts/win/zlib-build.bat x64'
         if: ${{ matrix.os.name == 'windows' }}
 
+      - run: mkdir include && mkdir lib
+        if: ${{ matrix.os.name == 'macos' }}
+
       # On MacOS, a flag is required to install pip dependencies - my fork provides this
       - name: Build Boost (fork)
         id: boost-fork
