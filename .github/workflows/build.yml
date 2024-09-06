@@ -96,7 +96,7 @@ jobs:
           sfml: ${{ matrix.sfml-version }}
           config: ${{ matrix.configuration }}
       - name: Copy SFML include to output folders
-        run: cp ${{ steps.sfml.outputs.path }}/include/* include/
+        run: cp -r ${{ steps.sfml.outputs.path }}/include/SFML include/
         shell: bash
       - name: Copy SFML libs to output folders
         run: cp ${{ steps.sfml.outputs.path }}/lib/* lib/
