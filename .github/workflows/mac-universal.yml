@@ -45,11 +45,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: mac-universal-dependencies
-          path: asciilib-dependencies-macos-universal.zip
+          path: asciilib-dependencies-macos-universal-${{ matrix.configuration }}.zip
 
       # upload a release
       - name: Github release
         uses: softprops/action-gh-release@v2
         with:
-          files: dependencies-mac-universal-${{ matrix.configuration }}.zip
+          files: dependencies-macos-universal-${{ matrix.configuration }}.zip
           tag_name: ${{ steps.download.outputs.tag_name }}
