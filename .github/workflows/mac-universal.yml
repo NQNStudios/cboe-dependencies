@@ -30,9 +30,9 @@ jobs:
       - uses: robinraju/release-downloader@v1
         with:
           latest: true
-          fileName: 'dependencies-mac-silicon-${{ matrix.configuration }}.tar'
+          fileName: 'dependencies-macos-silicon-${{ matrix.configuration }}.tar'
           extract: true
-          out-file-path: 'dependencies-mac-silicon-${{ matrix.configuration }}'
+          out-file-path: 'dependencies-macos-silicon-${{ matrix.configuration }}'
 
       - run: ./make-universal.sh
 
