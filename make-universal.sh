@@ -19,6 +19,13 @@ combine_all() {
         (cd ../../ && combine $LIB)
     done
 }
+copy_all() {
+    for LIB in $LIBS; do
+        cp -r $LIB ../../lib/
+    done
+}
 
 (cd $SILICON/lib && LIBS=*.a combine_all)
 (cd $SILICON/lib && LIBS=*.dylib combine_all)
+
+(cd $SILICON/lib && LIBS=*.framework copy_all)
