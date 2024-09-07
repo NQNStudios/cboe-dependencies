@@ -1,0 +1,54 @@
+name: Mac universal build
+on:
+  push:
+    branches:
+      - universal
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: macos-14
+    strategy:
+      matrix:
+        configuration:
+          - Release
+          - Debug
+    steps:
+      - uses: actions/checkout@v4
+
+      # Download macos-intel
+      - uses: robinraju/release-downloader@v1
+        id: download
+        with:
+          latest: true
+          fileName: 'dependencies-mac-intel-${{ matrix.configuration }}.zip'
+          zipBall: true
+          extract: true
+          out-file-path: 'dependencies-mac-intel-${{ matrix.configuration }}'
+
+      # Download macos-silicon
+      - uses: robinraju/release-downloader@v1
+        with:
+          latest: true
+          fileName: 'dependencies-mac-silicon-${{ matrix.configuration }}.zip'
+          zipBall: true
+          extract: true
+          out-file-path: 'dependencies-mac-silicon-${{ matrix.configuration }}'
+
+      - run: ./make-universal.sh
+
+      # Zip
+      - run: zip -r dependencies-mac-universal-${{ matrix.configuration }}.zip include lib
+
+      # Upload everything as artifact
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-universal-dependencies
+          path: asciilib-dependencies-mac-universal.zip
+
+      # upload a release
+      - name: Github release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dependencies-mac-universal-${{ matrix.configuration }}.zip
+          tag_name: ${{ steps.download.outputs.tag_name }}
