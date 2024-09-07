@@ -9,6 +9,7 @@ jobs:
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.15
       BUILD_OS: ${{ matrix.os.name }}
+      CONFIGURATION: ${{ matrix.configuration }}
     strategy:
       fail-fast: false
       matrix:
