@@ -22,8 +22,7 @@ jobs:
         id: download
         with:
           latest: true
-          fileName: 'dependencies-mac-intel-${{ matrix.configuration }}.zip'
-          zipBall: true
+          fileName: 'dependencies-mac-intel-${{ matrix.configuration }}.tar'
           extract: true
           out-file-path: 'dependencies-mac-intel-${{ matrix.configuration }}'
 
@@ -31,8 +30,7 @@ jobs:
       - uses: robinraju/release-downloader@v1
         with:
           latest: true
-          fileName: 'dependencies-mac-silicon-${{ matrix.configuration }}.zip'
-          zipBall: true
+          fileName: 'dependencies-mac-silicon-${{ matrix.configuration }}.tar'
           extract: true
           out-file-path: 'dependencies-mac-silicon-${{ matrix.configuration }}'
 
