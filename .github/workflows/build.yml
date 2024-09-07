@@ -10,6 +10,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.15
       BUILD_OS: ${{ matrix.os.name }}
       CONFIGURATION: ${{ matrix.configuration }}
+      ARCH: ${{ matrix.os.flag || '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -19,11 +20,13 @@ jobs:
           version: 12
           path-separator: ':'
           path-join: '/'
+          flag: 'x86_64'
         - name: macos
           suffix: '-silicon'
           version: 14
           path-separator: ':'
           path-join: '/'
+          flag: 'arm64'
         - name: ubuntu
           suffix: ''
           version: 22.04
