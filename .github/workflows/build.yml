@@ -62,7 +62,7 @@ jobs:
         working-directory: zlib/build
         if: ${{ matrix.os.name == 'ubuntu' }}
       - name: Build zlib for windows
-        run: './.github/workflows/scripts/win/zlib-build.bat x64'
+        run: './.github/workflows/scripts/win/zlib-build.bat x64 ${{matrix.configuration}}'
         if: ${{ matrix.os.name == 'windows' }}
       - name: Copy zlib for windows
         run: 'mkdir lib && cp -r zlib/build/${{matrix.configuration}} lib/'
