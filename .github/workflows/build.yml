@@ -70,7 +70,7 @@ jobs:
             mkdir -p include/contrib && \
             cp zlib/*.h include/ && \
             cp zlib/examples/*.h include/examples && \
-            cp -r zlib/contrib/** include/contrib/'
+            cp -r zlib/contrib/** include/contrib/
         shell: bash
         if: ${{ matrix.os.name == 'windows' }}
       - name: Copy zlib for windows
