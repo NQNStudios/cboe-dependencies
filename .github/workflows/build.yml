@@ -64,6 +64,10 @@ jobs:
       - name: Build zlib for windows
         run: './.github/workflows/scripts/win/zlib-build.bat x64'
         if: ${{ matrix.os.name == 'windows' }}
+      - name: Copy zlib for windows
+        run: 'mkdir lib && cp -r zlib/build/${{matrix.configuration}} lib/'
+        shell: bash
+        if: ${{ matrix.os.name == 'windows' }}
 
       - run: mkdir include && mkdir lib
         if: ${{ matrix.os.name == 'macos' }}
