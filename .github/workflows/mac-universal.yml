@@ -38,18 +38,18 @@ jobs:
 
       - run: ./make-universal.sh
 
-      # Zip
-      - run: zip -r dependencies-macos-universal-${{ matrix.configuration }}.zip include lib
+      - name: 'Tar files'
+        run: 'tar -cvf dependencies-macos-universal-${{matrix.configuration}}.tar "include" "lib"'
 
       # Upload everything as artifact
       - uses: actions/upload-artifact@v4
         with:
           name: mac-universal-dependencies
-          path: asciilib-dependencies-macos-universal-${{ matrix.configuration }}.zip
+          path: asciilib-dependencies-macos-universal-${{ matrix.configuration }}.tar
 
       # upload a release
       - name: Github release
         uses: softprops/action-gh-release@v2
         with:
-          files: dependencies-macos-universal-${{ matrix.configuration }}.zip
+          files: dependencies-macos-universal-${{ matrix.configuration }}.tar
           tag_name: ${{ steps.download.outputs.tag_name }}
