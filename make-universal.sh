@@ -21,7 +21,7 @@ combine_all() {
 }
 copy_all() {
     for LIB in $LIBS; do
-        cp -r $LIB ../../lib/
+        cp -av $LIB ../../lib/
     done
 }
 
