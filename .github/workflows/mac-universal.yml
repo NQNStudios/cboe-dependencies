@@ -44,8 +44,8 @@ jobs:
       # Upload everything as artifact
       - uses: actions/upload-artifact@v4
         with:
-          name: mac-universal-dependencies
-          path: dependencies-macos-universal-${{ matrix.configuration }}.tar
+          name: mac-universal-dependencies-${{matrix.configuration}}
+          path: dependencies-macos-universal-${{matrix.configuration}}.tar
 
       # upload a release
       - name: Github release
