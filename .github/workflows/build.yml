@@ -69,7 +69,7 @@ jobs:
         shell: bash
         if: ${{ matrix.os.name == 'windows' }}
       - name: Copy zlib for windows
-        run: 'mkdir lib && cp -r zlib/build/${{matrix.configuration}} lib/'
+        run: 'mkdir lib && cp zlib/build/${{matrix.configuration}}/* lib/'
         shell: bash
         if: ${{ matrix.os.name == 'windows' }}
 
