@@ -7,7 +7,7 @@ on:
 jobs:
   release:
     env:
-      MACOSX_DEPLOYMENT_TARGET: 10.15
+      MACOSX_DEPLOYMENT_TARGET: 10.13
       BUILD_OS: ${{ matrix.os.name }}
       CONFIGURATION: ${{ matrix.configuration }}
     strategy:
