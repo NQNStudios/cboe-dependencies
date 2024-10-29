@@ -53,8 +53,6 @@ jobs:
         run: cmake -DCMAKE_INSTALL_PREFIX=../ -S . -B build
         working-directory: zlib
         if: ${{ matrix.os.name == 'ubuntu' }}
-      - run: ls zlib/*.h
-        shell: bash
       - name: CMake zlib for windows
         run: cmake -DCMAKE_INSTALL_PREFIX=../ -S . -B build -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
         working-directory: zlib
@@ -66,13 +64,12 @@ jobs:
       - name: Build zlib for windows
         run: './.github/workflows/scripts/win/zlib-build.bat x64 ${{matrix.configuration}}'
         if: ${{ matrix.os.name == 'windows' }}
-      - run: ls zlib/*.h
-        shell: bash
       - name: Copy zlib includes for windows
         run: |
           mkdir -p include/examples && \
             mkdir -p include/contrib && \
             cp zlib/*.h include/ && \
+            cp zlib/zconf.h.included include/zconf.h && \
             cp zlib/examples/*.h include/examples && \
             cp -r zlib/contrib/** include/contrib/
         shell: bash
