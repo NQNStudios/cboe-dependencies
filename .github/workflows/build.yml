@@ -10,7 +10,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.15
       BUILD_OS: ${{ matrix.os.name }}
       CONFIGURATION: ${{ matrix.configuration }}
-      SUDO: ${{ matrix.os.name == 'windows' && '' || 'sudo'}}
+      SUDO: ${{ matrix.os.name != 'windows' && 'sudo' || ''}}
     strategy:
       fail-fast: false
       matrix:
