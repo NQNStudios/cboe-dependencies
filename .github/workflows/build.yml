@@ -50,18 +50,9 @@ jobs:
         with:
           submodules: true
 
-      # SFML
-      - name: Build SFML
-        id: sfml
-        uses: NQNStudios/install-sfml@v1
-        with:
-          sfml: ${{ matrix.sfml-version }}
-          config: ${{ matrix.configuration }}
-          arch: ${{ matrix.os.flag || '' }}
-
       # ZLIB
       - name: CMake zlib for linux
-        run: cmake -DBUILD_SHARED_LIBS -DCMAKE_INSTALL_PREFIX=../ -S . -B build
+        run: cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=../ -S . -B build
         working-directory: zlib
         if: ${{ matrix.os.name == 'ubuntu' }}
       - name: CMake zlib for windows
@@ -89,6 +80,15 @@ jobs:
         run: 'mkdir -p lib && cp zlib/build/${{matrix.configuration}}/* lib/'
         shell: bash
         if: ${{ matrix.os.name == 'windows' }}
+
+      # SFML
+      - name: Build SFML
+        id: sfml
+        uses: NQNStudios/install-sfml@v1
+        with:
+          sfml: ${{ matrix.sfml-version }}
+          config: ${{ matrix.configuration }}
+          arch: ${{ matrix.os.flag || '' }}
 
       - run: mkdir -p include && mkdir -p lib
         if: ${{ matrix.os.name == 'macos' }}
