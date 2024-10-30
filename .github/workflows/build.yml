@@ -10,6 +10,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.15
       BUILD_OS: ${{ matrix.os.name }}
       CONFIGURATION: ${{ matrix.configuration }}
+      SUDO: ${{ matrix.os.name == 'windows' && '' || 'sudo'}}
     strategy:
       fail-fast: false
       matrix:
@@ -116,10 +117,10 @@ jobs:
           static: ${{ matrix.os.name == 'windows' }}
         if: ${{ matrix.os.name != 'macos' }}
       - name: Copy boost include to output folders
-        run: sudo cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}${{ matrix.os.path-join }}boost' include/
+        run: $SUDO cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}${{ matrix.os.path-join }}boost' include/
         shell: bash
       - name: Copy boost libs to output folders
-        run: sudo cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}'""* lib/
+        run: $SUDO cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}'""* lib/
         if: ${{ matrix.os.name != 'windows' }}
       - name: Copy boost libs to output folders (windows)
         run: copy '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}*' lib/
