@@ -58,6 +58,7 @@ jobs:
           sfml: ${{ matrix.sfml-version }}
           config: ${{ matrix.configuration }}
           arch: ${{ matrix.os.flag || '' }}
+      - run: cat output.txt
 
 
       # ZLIB
