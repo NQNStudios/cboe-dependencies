@@ -58,8 +58,9 @@ jobs:
           sfml: ${{ matrix.sfml-version }}
           config: ${{ matrix.configuration }}
           arch: ${{ matrix.os.flag || '' }}
-      - run: cat output.txt
 
+      - run: cat output.txt
+        if: always()
 
       # ZLIB
       - name: CMake zlib for linux
