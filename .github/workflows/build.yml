@@ -61,7 +61,7 @@ jobs:
 
       # ZLIB
       - name: CMake zlib for linux
-        run: cmake -DCMAKE_INSTALL_PREFIX=../ -S . -B build
+        run: cmake -DBUILD_SHARED_LIBS -DCMAKE_INSTALL_PREFIX=../ -S . -B build
         working-directory: zlib
         if: ${{ matrix.os.name == 'ubuntu' }}
       - name: CMake zlib for windows
