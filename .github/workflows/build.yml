@@ -14,28 +14,28 @@ jobs:
       fail-fast: false
       matrix:
         os:
-#        - name: macos
-#          suffix: '-intel'
-#          version: 12
-#          path-separator: ':'
-#          path-join: '/'
-#          flag: 'x86_64'
-#        - name: macos
-#          suffix: '-silicon'
-#          version: 14
-#          path-separator: ':'
-#          path-join: '/'
-#          flag: 'arm64'
+        - name: macos
+          suffix: '-intel'
+          version: 12
+          path-separator: ':'
+          path-join: '/'
+          flag: 'x86_64'
+        - name: macos
+          suffix: '-silicon'
+          version: 14
+          path-separator: ':'
+          path-join: '/'
+          flag: 'arm64'
         - name: ubuntu
           suffix: ''
           version: 22.04
           path-separator: ':'
           path-join: '/'
-#        - name: windows
-#          suffix: ''
-#          version: 2019
-#          path-separator: ';'
-#          path-join: '\'
+        - name: windows
+          suffix: ''
+          version: 2019
+          path-separator: ';'
+          path-join: '\'
         boost-version:
         - 1.85.0
         sfml-version:
