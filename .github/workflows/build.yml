@@ -31,11 +31,11 @@ jobs:
           version: 22.04
           path-separator: ':'
           path-join: '/'
-#        - name: windows
-#          suffix: ''
-#          version: 2019
-#          path-separator: ';'
-#          path-join: '\'
+        - name: windows
+          suffix: ''
+          version: 2019
+          path-separator: ';'
+          path-join: '\'
         boost-version:
         - 1.85.0
         sfml-version:
