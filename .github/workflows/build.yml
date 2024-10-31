@@ -91,6 +91,10 @@ jobs:
           config: ${{ matrix.configuration }}
           arch: ${{ matrix.os.flag || '' }}
 
+      - run: cp bin/*.dll lib/
+        shell: bash
+        if: ${{ matrix.os.name == 'windows' }}
+
       - run: mkdir -p include && mkdir -p lib
         if: ${{ matrix.os.name == 'macos' }}
 
