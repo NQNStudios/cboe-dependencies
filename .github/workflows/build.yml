@@ -105,7 +105,7 @@ jobs:
         uses: NQNStudios/build-boost@v1
         with:
           version: ${{ matrix.boost-version }}
-          libraries: filesystem system
+          libraries: filesystem system locale
           platform: x64
           configuration: ${{ matrix.configuration }}
           static: ${{ matrix.os.name == 'windows' }}
@@ -115,7 +115,7 @@ jobs:
         uses: egor-tensin/build-boost@v1
         with:
           version: ${{ matrix.boost-version }}
-          libraries: filesystem system
+          libraries: filesystem system locale
           platform: x64
           configuration: ${{ matrix.configuration }}
           static: ${{ matrix.os.name == 'windows' }}
