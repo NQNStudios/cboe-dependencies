@@ -99,7 +99,8 @@ jobs:
         if: ${{ matrix.os.name == 'macos' }}
 
       # BOOST
-      # On MacOS, a flag is required to install pip dependencies - my fork provides this
+      # the original build-boost action maintainer has gone awol
+      # - my fork incorporates required changes
       - name: Build Boost (fork)
         id: boost-fork
         uses: NQNStudios/build-boost@v1
@@ -109,29 +110,18 @@ jobs:
           platform: x64
           configuration: ${{ matrix.configuration }}
           static: ${{ matrix.os.name == 'windows' }}
-        if: ${{ matrix.os.name == 'macos' }}
-      - name: Build Boost
-        id: boost
-        uses: egor-tensin/build-boost@v1
-        with:
-          version: ${{ matrix.boost-version }}
-          libraries: filesystem system locale
-          platform: x64
-          configuration: ${{ matrix.configuration }}
-          static: ${{ matrix.os.name == 'windows' }}
-        if: ${{ matrix.os.name != 'macos' }}
       - name: Copy boost include to output folders
-        run: $SUDO cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.root || steps.boost.outputs.root }}${{ matrix.os.path-join }}boost' include/
+        run: $SUDO cp -r '${{ steps.boost-fork.outputs.root }}${{ matrix.os.path-join }}boost' include/
         shell: bash
       - name: Copy boost libs to output folders
-        run: $SUDO cp -r '${{ matrix.os.name == 'macos' && steps.boost-fork.outputs.librarydir || steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}'""* lib/
+        run: $SUDO cp -r '${{ steps.boost-fork.outputs.librarydir }}${{ matrix.os.path-join }}'""* lib/
         if: ${{ matrix.os.name != 'windows' }}
       # weird workaround
       - run: rm -rf lib/cmake
         shell: bash
         if: ${{ matrix.os.name == 'windows' }}
       - name: Copy boost libs to output folders (windows)
-        run: copy '${{steps.boost.outputs.librarydir }}${{ matrix.os.path-join }}*' lib/
+        run: copy '${{steps.boost-fork.outputs.librarydir }}${{ matrix.os.path-join }}*' lib/
         if: ${{ matrix.os.name == 'windows' }}
 
       - name: 'Tar files'
