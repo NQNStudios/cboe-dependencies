@@ -103,7 +103,7 @@ jobs:
       # - my fork incorporates required changes
       - name: Build Boost (fork)
         id: boost-fork
-        uses: NQNStudios/build-boost@main
+        uses: NQNStudios/build-boost@v1.0.1
         with:
           version: ${{ matrix.boost-version }}
           libraries: filesystem system locale
