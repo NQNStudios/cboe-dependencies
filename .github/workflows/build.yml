@@ -34,7 +34,7 @@ jobs:
           path-join: '/'
         - name: windows
           suffix: ''
-          version: 2019
+          version: 2022
           path-separator: ';'
           path-join: '\'
         boost-version:
