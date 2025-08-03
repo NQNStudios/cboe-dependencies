@@ -103,13 +103,14 @@ jobs:
       # - my fork incorporates required changes
       - name: Build Boost (fork)
         id: boost-fork
-        uses: NQNStudios/build-boost@v1.0.1
+        uses: NQNStudios/build-boost@v1.0.2
         with:
           version: ${{ matrix.boost-version }}
           libraries: filesystem system locale
           platform: x64
           configuration: ${{ matrix.configuration }}
           static: ${{ matrix.os.name == 'windows' }}
+          extra-flag: ${{ matrix.os.name == 'macos' && '--break-system-packages' || '' }}
       - name: Copy boost include to output folders
         run: $SUDO cp -r '${{ steps.boost-fork.outputs.root }}${{ matrix.os.path-join }}boost' include/
         shell: bash
